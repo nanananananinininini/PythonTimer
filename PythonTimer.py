@@ -21,7 +21,7 @@ except KeyboardInterrupt:
     duration = ending_time - start_time
 
     print("Timer Stopped.", end=", duration = ")
-    print(timeConvert(duration)
+    print(timeConvert(duration))
 
     with open("DurationList.txt", 'a', encoding='utf-8') as f:
         f.write(timeConvert(duration) + "\n")

@@ -14,13 +14,15 @@ print("Timer Started.")
 try:
     while True:
         time.sleep(1)
-        print(timeConvert(time.time() - start_time))
+        NowTimeCode = time.time()
+        print(f"\rElasped:{timeConvert(NowTimeCode - start_time)}", end="", flush=True)
 
 except KeyboardInterrupt:
+    print("")
     ending_time = time.time()
     duration = ending_time - start_time
 
-    print("Timer Stopped.", end=", duration = ")
+    print("Timer Stopped", end=", duration = ")
     print(timeConvert(duration))
 
     with open("DurationList.txt", 'a', encoding='utf-8') as f:

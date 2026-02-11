@@ -1,5 +1,6 @@
 <Solution>
-  <Project Path="PythonTimer.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52">
+  <Folder Name="/解决方案项/" />
+  <Project Path="PythonTimer.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52" Id="47b426f8-e916-4524-a731-3dc59069dfe1">
     <Build Project="false" />
   </Project>
 </Solution>

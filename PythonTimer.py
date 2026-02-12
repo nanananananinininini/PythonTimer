@@ -1,5 +1,6 @@
 import time
 import datetime
+import keyboard
 
 def timeConvert(duration_seconds):
     total = int(duration_seconds)
@@ -8,15 +9,26 @@ def timeConvert(duration_seconds):
     hours = total // 3600
     return f"{hours:02}:{minutes:02}:{seconds:02}"
 
+def lapWriter(duration_seconds):
+    listing_time.append(duration_seconds)
 
 start_time = time.perf_counter()
 start_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 print(f"Timer Started.")
+
 try:
+    listing_time = [0]
     while True:
         time.sleep(1)
         NowTimeCode = time.perf_counter()
         print(f"\rElapsed: {timeConvert(NowTimeCode - start_time)}", end="", flush=True)
+        if(keyboard.is_pressed('l')):
+            lapWriter(timeConvert(NowTimeCode - start_time))
+            print(f"laps:{len(listing_time)}", flush=True) # Changed from listing_time.count() to len(listing_time)
+
+       
+except ImportError:
+    print("You may not use the Lap function or more features.")
 
 except KeyboardInterrupt:
     print("")

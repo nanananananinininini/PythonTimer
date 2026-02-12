@@ -1,6 +1,7 @@
 import time
 import datetime
 import keyboard
+import csv
 
 def timeConvert(duration_seconds):
     total = int(duration_seconds)
@@ -9,22 +10,32 @@ def timeConvert(duration_seconds):
     hours = total // 3600
     return f"{hours:02}:{minutes:02}:{seconds:02}"
 
-def lapWriter(duration_seconds):
+def lapWriter(duration_seconds, filename):
     listing_time.append(duration_seconds)
-    with open("DurationList.txt", 'a', encoding='utf-8') as f:
+    with open(filename, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Lap', len(listing_time), duration_seconds])
 
-        f.write("L")
-        f.write(str((len(listing_time))))
-        f.write('_')
-        f.write(listing_time[-1] + '\n')
+def pauseWriter(startTC, pauseQty, filename):
+    with open(filename, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        elapsed = startTC - start_time
+        writer.writerow(['Pause', pauseQty, elapsed])
 
 start_time = time.perf_counter()
 start_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+csv_filename = "Log.csv"
 
-print(f"Timer Started.")
+
+with open(csv_filename, 'w', newline='', encoding='utf-8') as f:
+    writer = csv.writer(f)
+    writer.writerow(['EventType', 'EventNumber', 'Timestamp'])
+
+print(f"Timer Started. Output will be saved to {csv_filename}")
 
 try:
     listing_time = []
+    stop_times = 0
 
     while True:
         time.sleep(0.00000000000001) 
@@ -32,12 +43,14 @@ try:
         print(f"\rElapsed: {timeConvert(NowTimeCode - start_time)} ", end="", flush=True)
         
         if keyboard.is_pressed('l'):
-            lapWriter(timeConvert(NowTimeCode - start_time))
+            lapWriter(NowTimeCode - start_time, csv_filename)
             print(f",laps:{len(listing_time)}", flush=True) 
             while keyboard.is_pressed('l'): pass
 
         if keyboard.is_pressed("p"):
+            stop_times += 1
             pausestart = time.perf_counter()
+            pauseWriter(pausestart, stop_times, csv_filename)
             
             while not keyboard.is_pressed('r'):
                 print(f"\rElapsed: {timeConvert(pausestart - start_time)} ,Paused", end="", flush=True)
@@ -57,9 +70,10 @@ except KeyboardInterrupt:
     print("Timer Stopped", end=", duration = ")
     print(timeConvert(duration))
 
-    with open("DurationList.txt", 'a', encoding='utf-8') as f:
-        f.write(timeConvert(duration) + "\n")
-        f.write("end all" + "\n")
+    with open(csv_filename, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['TotalDuration', '', duration])
+        writer.writerow(['End', '', ''])
 
     print("Will exit in 5 seconds")
     time.sleep(5)

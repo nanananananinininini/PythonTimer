@@ -16,13 +16,14 @@ def lapWriter(duration_seconds):
         f.write("L")
         f.write(str((len(listing_time))))
         f.write('_')
-        f.write(listing_time[-1])
+        f.write(listing_time[-1] + '\n')
 start_time = time.perf_counter()
 start_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 print(f"Timer Started.")
 
 try:
-    listing_time = [0]
+    listing_time = []
+
     while True:
         time.sleep(1)
         NowTimeCode = time.perf_counter()

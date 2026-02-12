@@ -1,3 +1,4 @@
+from io import StringIO
 import time
 import datetime
 import keyboard
@@ -11,7 +12,11 @@ def timeConvert(duration_seconds):
 
 def lapWriter(duration_seconds):
     listing_time.append(duration_seconds)
-
+    with open("DurationList.txt", 'a', encoding='utf-8') as f:
+        f.write("L")
+        f.write(str((len(listing_time))))
+        f.write('_')
+        f.write(listing_time[-1])
 start_time = time.perf_counter()
 start_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 print(f"Timer Started.")
@@ -40,6 +45,7 @@ except KeyboardInterrupt:
 
     with open("DurationList.txt", 'a', encoding='utf-8') as f:
         f.write(timeConvert(duration) + "\n")
+        f.write("end all" + "\n")
 
-    print("Will exit in 15 seconds.")
-    time.sleep(15)
+    print("Will exit in 5 seconds")
+    time.sleep(5)

@@ -1,12 +1,12 @@
 # PythonTimer
-https://github.com/nanananananinininini/PythonTimer/releases
-https://github.com/nanananananinininini/PythonTimer/releases/tag/V1.1.4
-## V1.1.4
+
+## V1.2.0
 
 ### 更新
-1. 使用csv存储。
-2. 增加暂停计时
-3. 增加提示语
 
-### 新增内容
-1. 增加回复计时写入csv
+1. 增加resume写入机制
+
+### 下一次（V1.2.1）更新内容
+
+1. 增加更加美观的CLI样式
+2. 用户可清除csv内所有数据记录

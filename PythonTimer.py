@@ -22,6 +22,11 @@ def pauseWriter(startTC, pauseQty, filename):
         elapsed = startTC - start_time
         writer.writerow(['Pause', pauseQty, elapsed])
 
+def resumeWriter(resumeTC, resumeQty, filename):
+    with open(filename, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Resume', resumeQty, '---'])
+
 start_time = time.perf_counter()
 start_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 csv_filename = "Log.csv"
@@ -57,10 +62,12 @@ try:
                 time.sleep(0.01)
             
             pauseend = time.perf_counter()
+            resumeWriter(pauseend, stop_times, csv_filename)
 
             start_time += (pauseend - pausestart)
             print("\r" + " " * 50 + "\r", end="", flush=True)
-            while keyboard.is_pressed('r'): pass 
+            while keyboard.is_pressed('r'): pass
+
 
 except KeyboardInterrupt:
     print("")
